@@ -1,72 +1,91 @@
 import {
     Text,
     View,
-    Button,
-    Image
-} from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import React, { useState } from 'react';
-import nasaClient from '../utils/nasaClient';
+    Image,
+    StyleSheet,
+    Button
+} from 'react-native'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import React, { useState } from 'react' 
+
+import {buscarESalvarFotoDoDia}  from "../utils/salvaFoto";
+
 interface Nasa {
     url: string
     data: string
+    id: string
 }
 
 const FotoDoDia = () => {
-    const api = 'bEpYLeLAMf1xNhdYsXkdTPwlaqWuOyzlmqmeeR3Q'
-    const apiUrl = `https://api.nasa.gov/planetary/apod?api_key=${api}`
-    const [NasaPhoto, setNasaPhoto] = useState<string>('')
-    const [DataPhoto, setDataPhoto] = useState<string>('')
-    const [NasaPhotos, setNasaPhotos] = useState<Nasa[]>([])
+    const [fotosNasa, setFotosNasa] = useState<Nasa[]>([])
+    const [carregado, setCarregado] = useState(false)
 
-    // OnBuscaNasa = (termo) =>{
-    //    GET https://api.nasa.gov/planetary/apod
-    // }
-    const FotoDia = async () => {
+    const carregarFotosSalvas = async () => {
         try {
-            const response = await nasaClient.get(apiUrl)
+            const chaves = await AsyncStorage.getAllKeys()
+            const itensSalvos = await AsyncStorage.multiGet(chaves)
 
-            const urlNasa: Nasa = {
-                url: response.data.url,
-                data: response.data.date
-            }
-            setNasaPhotos(imgUrl => [...imgUrl, urlNasa])
-            setNasaPhoto(response.data.url)
-            setDataPhoto(response.data.date)
-            const chave = "foto_" + DataPhoto
-            const foto = {
-                data: DataPhoto,
-                url: NasaPhoto,
-                id: chave
-            }
-            await AsyncStorage.setItem(chave, JSON.stringify(foto))
-        } catch (err) {
-            console.log(err)
+            const fotosFormatadas: Nasa[] = itensSalvos
+                .map(([chave, valor]) => {
+                    if (valor) {
+                        return JSON.parse(valor)
+                    }
+                    return null
+                })
+                .filter((foto): foto is Nasa => foto !== null)
+            setFotosNasa(fotosFormatadas)
+            setCarregado(true)
+        } catch (erro) {
+            console.log("Erro ao carregar fotos do storage:", erro)
         }
     }
+
+    if (!carregado) {
+        carregarFotosSalvas() 
+    }
+
+
     return (
-        <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
-            <Button title='mostrar' onPress={() => FotoDia()} />
-            {NasaPhotos.map((foto) => (
-                <View key={foto.data} style={{
-                    height: 100,
-                    width: 100,
-                    borderRadius: 16,
-                    margin: 20,
-                    alignItems: 'center',
-                    justifyContent: 'flex-end',
-                    paddingBottom: 4
-                }} >
+        <View style={styles.container}>
+            {fotosNasa.map((foto) => (
+                <View key={foto.id} style={styles.cartaoFoto} >
                     <Image
                         source={{ uri: foto.url }}
-                        style={{ width: '100%', height: '100%', borderRadius: 10, flexDirection: 'row' }}
+                        style={styles.imagemFoto}
                     />
-                    <Text style={{ color: 'white', textAlign: 'left', fontSize: 12 }}>{foto.data}</Text>
+                    <Text style={styles.textoData}>{foto.data}</Text>
                 </View>
             ))}
         </View>
     )
 }
 
+const styles = StyleSheet.create({
+    container: {
+        flexDirection: 'row', 
+        flexWrap: 'wrap',
+        justifyContent: 'center',
+        marginTop: 10
+    },
+    cartaoFoto: {
+        height: 100,
+        width: 100,
+        borderRadius: 16,
+        margin: 10,
+        alignItems: 'center',
+        justifyContent: 'flex-end',
+        paddingBottom: 4
+    },
+    imagemFoto: {
+        width: '100%', 
+        height: '100%', 
+        borderRadius: 10,
+    },
+    textoData: {
+        color: 'white', 
+        textAlign: 'left', 
+        fontSize: 12,
+    }
+})
+
 export default FotoDoDia
-{/* <Text style={{ color: 'white', textAlign: 'left' }}>{DataPhoto}</Text> */ }
