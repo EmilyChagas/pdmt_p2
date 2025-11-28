@@ -1,0 +1,6 @@
+require('dotenv').config()
+const axios = require('axios')
+const cors = require('cors')
+const express = require('express')
+const app = express()
+app.use(cors())

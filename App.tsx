@@ -1,8 +1,8 @@
 import { StyleSheet, Text, View, TextInput, Pressable, ScrollView } from 'react-native';
 import FotoDoDia from './components/fotoDoDia';
+import BuscarNasa from './components/busca';
 import RedeSocial from './components/redeSocial';
 import ExibeFoto from './components/exibeFoto';
-
 export default function App() {
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -11,39 +11,8 @@ export default function App() {
       </View>
       <View style={styles.galeria}>
         <View style={{ flexDirection: "row", justifyContent: 'space-evenly' }}>
-          <TextInput
-            style={styles.input}
-            // value={'1'}
-            // onChangeText={'2'} 
-            placeholder="Digite aqui sua pesquisa" />
-          <Pressable
-            style={styles.button}>
-            <Text style={{ color: '#fff', textAlign: 'center', fontSize: 18 }}>buscar</Text>
-          </Pressable>
-        </View>
-        <View style={{ flexDirection: "row", justifyContent: 'space-evenly', margin: 10 }}>
-          <Pressable
-            style={styles.buttonFiltro}>
-            <Text style={{ color: '#FF8630', textAlign: 'center', fontSize: 18 }}>2021</Text>
-          </Pressable>
-          <Pressable
-            style={styles.buttonFiltro}>
-            <Text style={{ color: '#FF8630', textAlign: 'center', fontSize: 18 }}>2022</Text>
-          </Pressable>
-          <Pressable
-            style={styles.buttonFiltro}>
-            <Text style={{ color: '#FF8630', textAlign: 'center', fontSize: 18 }}>2023</Text>
-          </Pressable>
-          <Pressable
-            style={styles.buttonFiltro}>
-            <Text style={{ color: '#FF8630', textAlign: 'center', fontSize: 18 }}>2024</Text>
-          </Pressable>
-          <Pressable
-            style={styles.buttonDestaque}>
-            <Text style={{ color: '#fff', textAlign: 'center', fontSize: 20 }}>2025</Text>
-          </Pressable>
-        </View>
-        <ExibeFoto></ExibeFoto>
+            <BuscarNasa />
+        </View>   
       </View>
       <View style={styles.footer}>
         <RedeSocial></RedeSocial>
@@ -51,7 +20,6 @@ export default function App() {
     </ScrollView>
   );
 }
-
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
@@ -70,7 +38,7 @@ const styles = StyleSheet.create({
   },
 
   galeria: {
-    width: '90%',
+    width: '100%',
     maxWidth: 1000,
     height: 'auto',
     // backgroundColor: '#0F121F',
@@ -84,8 +52,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#1C2135',
     minHeight: 200,
     justifyContent: 'center',
-    alignItems: 'center',
-    height:"37.5%"
+    alignItems: 'center'
   },
 
   button: {
@@ -109,7 +76,7 @@ const styles = StyleSheet.create({
     width: 55,
     height: 55,
     backgroundColor: "#FF8630",
-    borderRadius: 999,
+    borderRadius: 64,
     alignItems: "center",
     justifyContent: "center"
   },
