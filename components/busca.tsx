@@ -91,7 +91,7 @@ const BuscarNasa = () => {
                                 justifyContent: 'center',
                                 paddingBottom: 4,
                             }}>
-                                <Text style={{ color: 'white', textAlign: 'left', fontSize: 14 }}>
+                                <Text style={{ color: '#FFF', textAlign: 'left', fontSize: 14, marginBottom: 6, fontWeight: 'bold' }}>
                                     {limitarTexto(item.data[0].title, 40)}
                                 </Text>
                                 <Image
