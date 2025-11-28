@@ -1,12 +1,11 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import nasaClient from './nasaClient'
 
-const api = 'bEpYLeLAMf1xNhdYsXkdTPwlaqWuOyzlmqmeeR3Q'
-const apiUrl = `api.nasa.gov{api}`
+
 
 const buscarESalvarFotoDoDia = async () => {
     try {
-        const resposta = await nasaClient.get(apiUrl)
+        const resposta = await fetch('http://localhost:3000/apod')
         const dados = resposta.data
         const chave = "foto_" + dados.date
         

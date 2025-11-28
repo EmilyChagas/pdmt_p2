@@ -3,7 +3,8 @@ import {
     View,
     Image,
     StyleSheet,
-    Button
+    Button,
+    Pressable
 } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import React, { useState } from 'react' 
@@ -19,6 +20,35 @@ interface Nasa {
 const FotoDoDia = () => {
     const [fotosNasa, setFotosNasa] = useState<Nasa[]>([])
     const [carregado, setCarregado] = useState(false)
+    const [NasaPhoto, setNasaPhoto] = useState<string>('')
+    const [DataPhoto, setDataPhoto] = useState<string>('')
+    
+    const GeraFotoDia = async () =>{
+                try {
+            const response = await fetch('http://localhost:3000/apod')
+            const NasaImagem = await response.json()
+            const urlNasa: Nasa = {
+                id: NasaImagem.id,
+                url: NasaImagem.url,
+                data: NasaImagem.date,
+                
+            }
+            setFotosNasa(imgUrl => [...imgUrl, urlNasa])
+            setNasaPhoto(NasaImagem.url)
+            setDataPhoto(NasaImagem.date)
+            const chave = "foto_" + DataPhoto
+            const foto = {
+                data: DataPhoto,
+                url: NasaPhoto,
+                
+            }
+            
+            await AsyncStorage.setItem(chave, JSON.stringify(foto))
+        } catch (err) {
+            console.log(err)
+        }
+    }
+    
 
     const carregarFotosSalvas = async () => {
         try {
@@ -47,6 +77,9 @@ const FotoDoDia = () => {
 
     return (
         <View style={styles.container}>
+            <Pressable
+            onPress={()=>GeraFotoDia()} 
+            > teste</Pressable>
             {fotosNasa.map((foto) => (
                 <View key={foto.id} style={styles.cartaoFoto} >
                     <Image

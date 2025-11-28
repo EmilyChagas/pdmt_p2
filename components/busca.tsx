@@ -53,6 +53,8 @@ const BuscarNasa = () => {
                 ))}
                 <View style={{ marginRight: 20 }}></View>
                 <Pressable
+                    key={2025}
+                    onPress={()=>BuscarAno(2025)}
                     style={styles.buttonDestaque}>
                     <Text style={{ color: '#fff', textAlign: 'center', fontSize: 20, }}>2025</Text>
                 </Pressable>
@@ -62,7 +64,7 @@ const BuscarNasa = () => {
                     style={styles.input}
                     value={NasaBusca}
                     onChangeText={setNasaBusca}
-                    placeholder="Digite o termo de busca "
+                    placeholder="Digite o termo de busca (em Inglês)"
                 />
                 <Pressable
                     style={styles.button}
