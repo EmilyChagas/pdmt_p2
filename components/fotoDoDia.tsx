@@ -9,7 +9,7 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import React, { useState } from 'react' 
 
-import {buscarESalvarFotoDoDia}  from "../utils/salvaFoto";
+import buscarESalvarFotoDoDia  from "../utils/salvaFoto";
 
 interface Nasa {
     url: string

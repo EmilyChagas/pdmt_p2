@@ -2,7 +2,6 @@ import { StyleSheet, Text, View, TextInput, Pressable, ScrollView } from 'react-
 import FotoDoDia from './components/fotoDoDia';
 import BuscarNasa from './components/busca';
 import RedeSocial from './components/redeSocial';
-import ExibeFoto from './components/exibeFoto';
 export default function App() {
   return (
     <ScrollView contentContainerStyle={styles.container}>
